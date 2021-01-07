@@ -12,7 +12,6 @@
 #
 
 
-
 import argparse
 import os
 import json
@@ -131,12 +130,24 @@ def prepareVenderDirectory( vendorDirectory, sourceDirectory, config ):
     addConfig( vendorDirectory, config )
 
 
-
+"""
+    Build Package
+    Will Build Each Package in the directory required by the config file.
+    Will Ensure the path is unuinqe and then build the file and copy all the 
+    go files from the build source over.
+"""
 def buildPackages( vendorDirectory, sourceDirectory, config ):
     if "packages" in config:
         for package in config[ "packages" ]:
             buildPath = os.path.join( vendorDirectory, package[ "name" ] )
             sourcePath = os.path.join( sourceDirectory, package[ "path" ] )
+            
+            if os.path.isdir( buildPath ):
+                print( """Error: Unable to build package {}, as the build 
+                        name is not unique."""
+                        .format( package[ "name" ] ) )
+                continue
+
             os.mkdir( buildPath )
 
             if not os.path.isdir( sourcePath ):
@@ -151,48 +162,44 @@ def buildPackages( vendorDirectory, sourceDirectory, config ):
                     shutil.copy2( file, buildPath )
 
 
+# Build Config
+def build():
+    configFile      = os.path.join( os.getcwd(), CONFIG_NAME )
+    sourceDirectory = os.path.dirname( configFile )
 
-def build( config, sourceDirectory ):
+    with open( configFile ) as data: config = json.load( data )
     vendorDirectory = os.path.join( GO_PATH, config[ "vendor" ] )
-    sourceDirectory = sourceDirectory
 
     prepareVenderDirectory( vendorDirectory, sourceDirectory, config )
     buildPackages( vendorDirectory, sourceDirectory, config )
     
 
-
-
 # Setup
-def setup():
+def main(args=None):
     description = "Bubble Gom (v{}) by Sellers Industry".format( VERSION )
-    parser = argparse.ArgumentParser( description=description )
+    parser = argparse.ArgumentParser( description=description, add_help=False )
 
     # Version Number
-    parser.add_argument( "--version", "-v",
-            action='store_const',
-            const="version",
-            help="version of Bubble Gom"
-        )
-    subparsers = parser.add_subparsers( help="Commands Help" )
+    subparsers = parser.add_subparsers( help="Commands", dest='command' )
 
-    # Run
-    parser_run = subparsers.add_parser( "run", help="Run from config file" )
-
-    # Build
-    parser_build = subparsers.add_parser( "build", help="Build from config file" )
+    # Commands
+    parser_help    = subparsers.add_parser( "help", help="help documents" )
+    parser_version = subparsers.add_parser( "version", help="version of Bubble Gom" )
+    parser_build   = subparsers.add_parser( "build", help="Build from config file" )
         
     args = parser.parse_args()
 
-
-    # Data information
-    configFile      = "/Users/sellerew/OneDrive - Rose-Hulman Institute of Technology/Desktop/libraries/bubble-gom/example/gom.config"
-    sourceDirectory = os.path.dirname( configFile )
-    with open( configFile ) as data: config = json.load( data )
-
-    build( config, sourceDirectory )
-
-
-
-setup()
+    # Run Commands
+    if args.command == "help":
+        parser.print_help()
+    elif args.command == "version":
+        print( description )
+    elif args.command == "build":
+        build()
+    else:
+        print( "Command unknown try \"gom help\"" )
 
 
+
+if __name__ == "__main__":
+    sys.exit( main() )
