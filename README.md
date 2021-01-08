@@ -27,6 +27,24 @@ It is called bubble because your packages float up into your Go Path, and Gom as
 <br>
 
 ## Installing
+Installation is super easy and can be done in a couple easy steps. If people like this tool we will create a pip installation method later. Why a version of Python 3.0 is required we are not 100% if it will work, so note this version was test on Python 3.6.8.
+
+**Requirments**
+- Python 3.0 or greater
+- Go 1.6 or greater
+
+**Steps**
+1. Download the Bubble Gom Repo
+2. Navigate to the directory in the terminal
+3. Run the python install script `python setup.py install`
+
+**Commands**
+```sh
+git clone https://github.com/Sellers-Industry/bubble-gom.git
+cd bubble-gom
+python setup.py install
+```
+
 
 <br>
 <br>
