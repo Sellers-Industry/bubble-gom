@@ -1,6 +1,8 @@
 # Bubble Gom (Go Build Manager)
 Bubble Gom by Sellers Industry is a Go Build Manager that allows you to build Go Projects outside your go folder. It then allows you to import other Go files inside your local project directory. This command line script allows you to create a gom build config and it will be built on request.
 
+Quick Note: This project was created to help with the development of Go Projects. It is an early prototype and if people like it, we will continue to develop Bubble Gom further. If you are using Bubble Gom and like it, give a star on GitHub, so we know we should keep developing this project.
+
 <br>
 
 **What is Bubble Gom?**<br>
