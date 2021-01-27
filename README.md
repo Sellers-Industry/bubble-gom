@@ -1,3 +1,8 @@
+<h1> :exclamation:  Bubble Gom is depreciated as of <i>Jan 27, 2021</i><br></h1>
+While, this project made managing GoLang Projects easier, it is much better overall to keep your projects in the Go Directory.
+
+<br>
+
 ![Bubble Gom (Go Build Manager)](assets/banner.png)
 <br>
 <br>
